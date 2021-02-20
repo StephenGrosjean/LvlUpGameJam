@@ -20,9 +20,39 @@ public class Teleporter : MonoBehaviour
     {
         if (collider.tag == playerTag)
         {
-            MovementPlaceholder movementPlaceholder = collider.GetComponentInParent<MovementPlaceholder>();
+            collider.transform.position = target.position;
 
-            movementPlaceholder.TeleportPlayer(target.position, gravityDirection);
+            collider.transform.eulerAngles = RotatePlayer(gravityDirection);
         }
     }
+
+    public Vector3 RotatePlayer(Teleporter.Gravity gravityDirection)
+    {
+
+        Vector3 rotation = new Vector3();
+
+        if (gravityDirection == Teleporter.Gravity.UP)
+        {
+            rotation = new Vector3(0, 0, 180);
+            Physics2D.gravity = new Vector3(0, 9.81f, 0);
+        }
+        else if (gravityDirection == Teleporter.Gravity.DOWN)
+        {
+            rotation = new Vector3(0, 0, 0);
+            Physics2D.gravity = new Vector3(0, -9.81f, 0);
+        }
+        else if (gravityDirection == Teleporter.Gravity.LEFT)
+        {
+            rotation = new Vector3(0, 0, 270);
+            Physics2D.gravity = new Vector3(-9.81f, 0, 0);
+        }
+        else if (gravityDirection == Teleporter.Gravity.RIGHT)
+        {
+            rotation = new Vector3(0, 0, 90);
+            Physics2D.gravity = new Vector3(9.81f, 0, 0);
+        }
+
+        return rotation;
+    }
+
 }

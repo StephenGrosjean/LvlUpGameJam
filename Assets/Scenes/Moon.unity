@@ -215,9 +215,9 @@ GameObject:
   m_Component:
   - component: {fileID: 431538055}
   - component: {fileID: 431538056}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -297,9 +297,9 @@ GameObject:
   m_Component:
   - component: {fileID: 486975441}
   - component: {fileID: 486975442}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Plateform
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -345,6 +345,11 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!4 &645033640 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6138500204560815470, guid: 231894747f160ec4aba5b9c7b56ec007, type: 3}
+  m_PrefabInstance: {fileID: 1728100489}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &996685681
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,6 +465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moonSpriteRenderer: {fileID: 996685682}
   cameraTransform: {fileID: 1872119437}
+  playerTransform: {fileID: 645033640}
   cameraPosition: {x: 2, y: 3}
 --- !u!50 &996685686
 Rigidbody2D:
@@ -576,6 +582,63 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!1001 &1728100489
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6138500204560815467, guid: 231894747f160ec4aba5b9c7b56ec007, type: 3}
+      propertyPath: m_Name
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138500204560815470, guid: 231894747f160ec4aba5b9c7b56ec007, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138500204560815470, guid: 231894747f160ec4aba5b9c7b56ec007, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138500204560815470, guid: 231894747f160ec4aba5b9c7b56ec007, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138500204560815470, guid: 231894747f160ec4aba5b9c7b56ec007, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138500204560815470, guid: 231894747f160ec4aba5b9c7b56ec007, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138500204560815470, guid: 231894747f160ec4aba5b9c7b56ec007, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138500204560815470, guid: 231894747f160ec4aba5b9c7b56ec007, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138500204560815470, guid: 231894747f160ec4aba5b9c7b56ec007, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138500204560815470, guid: 231894747f160ec4aba5b9c7b56ec007, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138500204560815470, guid: 231894747f160ec4aba5b9c7b56ec007, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6138500204560815470, guid: 231894747f160ec4aba5b9c7b56ec007, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 231894747f160ec4aba5b9c7b56ec007, type: 3}
 --- !u!1 &1872119434
 GameObject:
   m_ObjectHideFlags: 0
@@ -1726,8 +1789,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 1571061549906888947}
   m_Bounds:
-    m_Center: {x: 0.0006966628, y: 0.000038206577, z: 0}
-    m_Extent: {x: 0.05754944, y: 0.15234467, z: 0}
+    m_Center: {x: 0.0006971657, y: 0.000038325787, z: 0}
+    m_Extent: {x: 0.057548944, y: 0.15234454, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!4 &1571061549906888947
@@ -1872,8 +1935,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 4044558640501614824}
   m_Bounds:
-    m_Center: {x: 0.013380274, y: -0.0034179688, z: 0}
-    m_Extent: {x: 0.05755101, y: 0.15229435, z: 0}
+    m_Center: {x: 0.013380319, y: -0.0034179091, z: 0}
+    m_Extent: {x: 0.057549737, y: 0.15229398, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!4 &2936739205633017867
@@ -2028,8 +2091,8 @@ MonoBehaviour:
   - {fileID: 1648162276959744884}
   - {fileID: 3824992430969317218}
   m_Bounds:
-    m_Center: {x: 0.049011588, y: 0.0012996197, z: 0}
-    m_Extent: {x: 0.35426453, y: 0.3362102, z: 0}
+    m_Center: {x: 0.049011618, y: 0.0013000965, z: 0}
+    m_Extent: {x: 0.35426453, y: 0.33620995, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!212 &3980127528797072630
@@ -2358,8 +2421,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 6574204672388751048}
   m_Bounds:
-    m_Center: {x: 0.0006276816, y: -0.005633056, z: 0}
-    m_Extent: {x: 0.05754477, y: 0.15234327, z: 0}
+    m_Center: {x: 0.00062812865, y: -0.0056326985, z: 0}
+    m_Extent: {x: 0.05754427, y: 0.15234312, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &6221923785597263297
@@ -2381,7 +2444,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!70 &6221923785597263298
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -2542,8 +2605,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 7078800696286609414}
   m_Bounds:
-    m_Center: {x: 0.013383258, y: -0.00028312206, z: 0}
-    m_Extent: {x: 0.05754644, y: 0.1523438, z: 0}
+    m_Center: {x: 0.013382725, y: -0.00028288364, z: 0}
+    m_Extent: {x: 0.057545945, y: 0.15234365, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!4 &7078800696286609414
@@ -2577,8 +2640,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 8947246652116130770}
   m_Bounds:
-    m_Center: {x: 0.0056262873, y: 0.13502371, z: 0}
-    m_Extent: {x: 0.055456318, y: 0.15176612, z: 0}
+    m_Center: {x: 0.0069334432, y: 0.0037527233, z: 0}
+    m_Extent: {x: 0.05689142, y: 0.1522005, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &7545315062012325819
@@ -2855,8 +2918,8 @@ MonoBehaviour:
   m_BoneTransforms:
   - {fileID: 5307626287839127310}
   m_Bounds:
-    m_Center: {x: 0.0018282309, y: 0.12733376, z: 0}
-    m_Extent: {x: 0.05420605, y: 0.15103811, z: 0}
+    m_Center: {x: 0.013544314, y: -0.009085149, z: 0}
+    m_Extent: {x: 0.05481989, y: 0.15156935, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &8928976280892787295
