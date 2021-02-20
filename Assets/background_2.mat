@@ -73,7 +73,7 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     - hstep: 0.4
-    - radius: 1.94
+    - radius: 6.5
     - resolution: 83.05
     - vstep: 0.03
     m_Colors:
