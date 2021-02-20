@@ -2,7 +2,7 @@ using System;
 using Cinemachine;
 using UnityEngine;
 
-public class AnchroTrigger : MonoBehaviour
+public class AnchorTrigger : MonoBehaviour
 {
 	[SerializeField] private Transform anchor;
 

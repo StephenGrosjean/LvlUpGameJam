@@ -85,7 +85,6 @@ public class PlayerController : MonoBehaviour
 
 		if (!Input.GetButton("Interact"))
 		{
-			Debug.Log(transform.localRotation * velocity);
 			int sign = Math.Sign((transform.localRotation * velocity).x);
 			transform.localScale = new Vec3f(sign == 0 ? 1 : sign, 1.0f, 1.0f);
 		}
