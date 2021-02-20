@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Moon : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer moonSpriteRenderer;
+    [SerializeField] private GameObject moonSpriteRenderer;
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private Transform playerTransform;
 
@@ -20,7 +20,7 @@ public class Moon : MonoBehaviour
     {
         if (collider.tag == "Wall")
         {
-            moonSpriteRenderer.enabled = false;
+            moonSpriteRenderer.SetActive(false);
         }
 
 

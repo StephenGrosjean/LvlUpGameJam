@@ -20,6 +20,7 @@ public class Teleporter : MonoBehaviour
     {
         if (collider.tag == playerTag)
         {
+
             collider.transform.position = target.position;
 
             collider.transform.eulerAngles = RotatePlayer(gravityDirection);
