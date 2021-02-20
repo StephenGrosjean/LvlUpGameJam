@@ -1,27 +1,9 @@
-<<<<<<< HEAD
 using System.Collections;
 using System.Collections.Generic;
-=======
-using System;
->>>>>>> bc79af8cae6eb3df584766d0feb9b36c971fa7e3
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-<<<<<<< HEAD
-    // Start is called before the first frame update
-    private void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        
-    }
-}
-=======
 	[Header("Player Movements")]
 	[SerializeField] private float moveSpeed = 5.0f;
 	[SerializeField] private float jumpStrength = 7.5f;
@@ -101,4 +83,3 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 }
->>>>>>> bc79af8cae6eb3df584766d0feb9b36c971fa7e3
