@@ -71,8 +71,8 @@ public class PlayerController : MonoBehaviour
 		var velocity = rigidbody.velocity;
 
 		velocity = (state & (int) PlayerState.PUSHING_BLOCK) != 0 ?
-                       new Vec3f(moveX * blockMoveSpeed, velocity.y, 0.0f) :
-                       new Vec3f(moveX * moveSpeed, velocity.y, 0.0f);
+                       new Vec3f(moveX * blockMoveSpeed * -gravityY, velocity.y, 0.0f) :
+                       new Vec3f(moveX * moveSpeed * -gravityY, velocity.y, 0.0f);
 
 		rigidbody.velocity = velocity;
 		animator.SetFloat(MoveX, Math.Abs(velocity.x));
@@ -85,8 +85,9 @@ public class PlayerController : MonoBehaviour
 
 		if (!Input.GetButton("Interact"))
 		{
-			if (moveX < 0.0f) transform.localScale = new Vec3f(gravityY, 1.0f);
-			else if (moveX > 0.0f) transform.localScale = new Vec3f(-gravityY, 1.0f);
+			Debug.Log(transform.localRotation * velocity);
+			int sign = Math.Sign((transform.localRotation * velocity).x);
+			transform.localScale = new Vec3f(sign == 0 ? 1 : sign, 1.0f, 1.0f);
 		}
 	}
 
