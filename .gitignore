@@ -60,3 +60,4 @@ crashlytics-build.properties
 
 # JetBrains Rider files
 **/.idea/**
+*.DotSettings

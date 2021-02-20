@@ -14,8 +14,9 @@ public class PushableBlock : MonoBehaviour
     
     private void Start()
     {
-        playerTransform = GetComponent<PlayerController>().gameObject.transform;
-        playerCollider2D = GetComponent<PlayerController>().GetComponent<Collider2D>();
+        var playerController = FindObjectOfType<PlayerController>();
+        playerTransform = playerController.transform;
+        playerCollider2D = playerController.GetComponent<Collider2D>();
     }
 
     private void Update()

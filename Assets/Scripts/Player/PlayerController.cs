@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private float fallMultiplier = 1.5f;
 	[SerializeField] private float lowJumpMultiplier = 0.1f;
 	[SerializeField] private Transform jumpRaycastOrigin;
-	[SerializeField] private Transform pushBlockRaycastOrigin;
 	private bool canJump;
 
 	[Header("Components")]
@@ -40,7 +39,8 @@ public class PlayerController : MonoBehaviour
 	{
 		float moveX = Input.GetAxis("Horizontal");
 		animator.SetFloat(MoveX, Math.Abs(moveX));
-		aTransform.position += new Vector3(moveX * moveSpeed, 0.0f, 0.0f) * Time.deltaTime;
+		aRigidbody.velocity = new Vector3(moveX * moveSpeed, aRigidbody.velocity.y, 0.0f);
+
 		if (moveX < 0.0f)
 			aTransform.localScale = new Vector3(-1.0f, 1.0f);
 		else if (moveX > 0.0f)
@@ -49,10 +49,9 @@ public class PlayerController : MonoBehaviour
 
 	private void CheckJump()
 	{
-		int layer = 1 << LayerMask.NameToLayer("Ground");
-		layer <<= LayerMask.NameToLayer("PushableBloc");
-		var hit = 
-			Physics2D.CircleCast(jumpRaycastOrigin.position, 0.1f, Vector2.down, 0.2f, layer);
+		int groundLayer = 1 << LayerMask.NameToLayer("Ground");
+		var hit =
+			Physics2D.CircleCast(jumpRaycastOrigin.position, 0.1f, Vector2.down, 0.2f, groundLayer);
 		canJump = hit;
 		animator.SetBool(CanJump, canJump);
 		
