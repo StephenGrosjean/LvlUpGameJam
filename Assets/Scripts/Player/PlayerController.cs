@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private float jumpStrength = 7.5f;
 	[SerializeField] private float fallMultiplier = 1.5f;
 	[SerializeField] private float lowJumpMultiplier = 0.1f;
+	[SerializeField] private float circleRadius = 0.1f;
 	[SerializeField] private Transform jumpRaycastOrigin;
 	private bool canJump;
 
@@ -51,7 +52,7 @@ public class PlayerController : MonoBehaviour
 	{
 		int groundLayer = 1 << LayerMask.NameToLayer("Ground");
 		var hit =
-			Physics2D.CircleCast(jumpRaycastOrigin.position, 0.1f, Vector2.down, 0.2f, groundLayer);
+			Physics2D.CircleCast(jumpRaycastOrigin.position, circleRadius, Vector2.down, 0.2f, groundLayer);
 		canJump = hit;
 		animator.SetBool(CanJump, canJump);
 		
