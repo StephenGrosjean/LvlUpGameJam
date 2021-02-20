@@ -6,6 +6,7 @@ public class MovementPlaceholder : MonoBehaviour
 {
     [SerializeField] private Rigidbody2D playeRigidbody2D;
     [SerializeField] private float velocity;
+    [SerializeField] private Transform cameraTransform;
     
 
     void FixedUpdate()
@@ -20,6 +21,11 @@ public class MovementPlaceholder : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             playeRigidbody2D.velocity = new Vector2(-velocity, playeRigidbody2D.velocity.y);
+        }
+
+        if (cameraTransform != null)
+        {
+            cameraTransform.position = new Vector3(transform.position.x, cameraTransform.position.y, cameraTransform.position.z);
         }
     }
 
