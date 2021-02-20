@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour
 
 	private void CheckMove()
 	{
+		float gravityY = Math.Sign(Physics2D.gravity.y);
 		float moveX  = Input.GetAxis("Horizontal");
 		var velocity = rigidbody.velocity;
 
@@ -84,16 +85,17 @@ public class PlayerController : MonoBehaviour
 
 		if (!Input.GetButton("Interact"))
 		{
-			if (moveX < 0.0f) transform.localScale = new Vec3f(-1.0f, 1.0f);
-			else if (moveX > 0.0f)
-				transform.localScale = new Vec3f(1.0f, 1.0f);
+			if (moveX < 0.0f) transform.localScale = new Vec3f(gravityY, 1.0f);
+			else if (moveX > 0.0f) transform.localScale = new Vec3f(-gravityY, 1.0f);
 		}
 	}
 
 	private void CheckJump()
 	{
-		var hit = Physics2D.CircleCast(
-			jumpRayOrigin.position, jumpCastWidth, Vec2f.down, jumpGroundDist, groundLayer);
+		float gravityY = Math.Sign(Physics2D.gravity.y);
+		var newUp      = new Vec2f(0.0f, -gravityY);
+		var hit        = Physics2D.CircleCast(
+            jumpRayOrigin.position, jumpCastWidth, -newUp, jumpGroundDist, groundLayer);
 
 		if (hit) state |= (int) PlayerState.CAN_JUMP;
 		else
@@ -103,20 +105,20 @@ public class PlayerController : MonoBehaviour
 		if (Input.GetButtonDown("Jump") && (state & (int) PlayerState.CAN_JUMP) != 0)
 		{
 			animator.SetTrigger(Jump);
-			rigidbody.velocity = Vec2f.up * jumpStrength;
+			rigidbody.velocity = newUp * jumpStrength;
 		}
-		else if (rigidbody.velocity.y > 0.0f && !Input.GetButton("Jump"))
+		else if (rigidbody.velocity.y * -gravityY > 0.0f && !Input.GetButton("Jump"))
 		{
 			rigidbody.velocity +=
-				Vec2f.up * (Physics2D.gravity.y * lowJumpMultiplier * Time.deltaTime);
+				newUp * (Physics2D.gravity.y * lowJumpMultiplier * Time.deltaTime * -gravityY);
 		}
 		else
 		{
 			animator.ResetTrigger(Jump);
 		}
 
-		animator.SetFloat(VelocityY, rigidbody.velocity.y);
-		rigidbody.gravityScale = rigidbody.velocity.y < -2.0f ? fallMultiplier : 1.0f;
+		animator.SetFloat(VelocityY, rigidbody.velocity.y * -gravityY);
+		rigidbody.gravityScale = rigidbody.velocity.y * -gravityY < -2.0f ? fallMultiplier : 1.0f;
 	}
 
 	private void PushBlock()
@@ -179,7 +181,9 @@ public class PlayerController : MonoBehaviour
 		Gizmos.color = Color.yellow;
 		Gizmos.DrawLine(transform.position, transform.position + dirRay);
 
-		dirRay = Vec3f.down * jumpGroundDist;
+		float gravityY = Math.Sign(Physics2D.gravity.y);
+		var newDown = new Vec2f(0.0f, gravityY);
+		dirRay      = newDown * jumpGroundDist;
 		Gizmos.DrawCube(
 			jumpRayOrigin.position + dirRay / 2.0f, new Vec3f(jumpCastWidth, jumpGroundDist));
 	}
