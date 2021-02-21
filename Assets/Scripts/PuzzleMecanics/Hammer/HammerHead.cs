@@ -21,7 +21,7 @@ public class HammerHead : MonoBehaviour
             if (hammer.active)
             {
                 collision.gameObject.GetComponent<DeathManager>().KillHammer(-collision.GetContact(0).normal);
-                GetComponent<BoxCollider2D>().isTrigger = true;
+                GetComponent<Collider2D>().isTrigger = true;
             }
         }
     }
