@@ -26,12 +26,13 @@ public class Moon : MonoBehaviour
 
     [SerializeField] private float timeBeforeMoonExplodes = 5f;
 
-    [SerializeField] private Transform cameraTransform;
+    private Transform cameraTransform;
 
     private float timer;
 
     private void Start()
     {
+        cameraTransform = Camera.main.transform;
         transform.parent = cameraTransform;
         moonRigidbody2Ds.AddRange(moonSprites.GetComponentsInChildren<Rigidbody2D>());
         moonColliders.AddRange(moonSprites.GetComponentsInChildren<Collider2D>());
