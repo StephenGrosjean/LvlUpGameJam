@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Rock : MonoBehaviour
@@ -12,11 +9,10 @@ public class Rock : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
     }
 
-    void OnCollisionEnter2D(Collision2D other) {
-        if (other.gameObject.CompareTag("Player") && body.velocity.magnitude >= minVelocity)
-        {
-            other.gameObject.GetComponent<DeathManager>().KillRock();
-            GetComponent<Collider2D>().isTrigger = true;
-        }
-    }
+	private void OnCollisionEnter2D(Collision2D other)
+	{
+		if (!other.gameObject.CompareTag("Player")) return;
+		other.gameObject.GetComponent<PlayerController>().KillRock();
+		GetComponent<Collider2D>().isTrigger = true;
+	}
 }

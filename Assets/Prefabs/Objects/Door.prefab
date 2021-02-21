@@ -211,7 +211,7 @@ GameObject:
   m_Component:
   - component: {fileID: 80603468038105092}
   - component: {fileID: 80603468038105093}
-  m_Layer: 7
+  m_Layer: 2
   m_Name: Ground
   m_TagString: Stopper
   m_Icon: {fileID: 0}
