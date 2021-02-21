@@ -22,7 +22,7 @@ public class Moon : MonoBehaviour
     [SerializeField] private float layerFadeOut = 0.01f;
     [SerializeField] private SpriteRenderer fadeOutSpriteRenderer;
 
-    private bool destroyed = false;
+    public bool destroyed = false;
 
     [SerializeField] private float timeBeforeMoonExplodes = 5f;
 
@@ -38,6 +38,7 @@ public class Moon : MonoBehaviour
         moonSpriteRenderers.AddRange(moonSprites.GetComponentsInChildren<SpriteRenderer>());
 
         fadeOutSpriteRenderer.transform.parent = cameraTransform;
+        fadeOutSpriteRenderer.transform.position = cameraTransform.position + Vector3.forward * 10;
 
         transform.localPosition = cameraPosition;
 
@@ -84,6 +85,10 @@ public class Moon : MonoBehaviour
                 foreach (Collider2D colliders in moonColliders)
                 {
                     colliders.enabled = true;
+                }
+                foreach (SpriteRenderer sprites in moonSpriteRenderers)
+                {
+                    sprites.sortingLayerName = "Player";
                 }
 
                 timer = 0;

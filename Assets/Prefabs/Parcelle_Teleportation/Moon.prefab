@@ -25,8 +25,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7157374256594567750}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 30, y: 30, z: 1}
+  m_LocalPosition: {x: 6.907013, y: 5.1465015, z: 0}
+  m_LocalScale: {x: 99.06597, y: 40.29, z: 1}
   m_Children: []
   m_Father: {fileID: 7157374257449728343}
   m_RootOrder: 0
@@ -68,9 +68,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingLayerID: -1688783369
+  m_SortingLayer: 4
+  m_SortingOrder: -2
   m_Sprite: {fileID: 7482667652216324306, guid: db750325989564987a34393247d883b4, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_FlipX: 0
@@ -189,7 +189,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1052124695
-  m_SortingLayer: 5
+  m_SortingLayer: 1
   m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: d889eddb22d3973439bcddf847caafb7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -398,8 +398,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1052124695
-  m_SortingLayer: 5
-  m_SortingOrder: 3
+  m_SortingLayer: 1
+  m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: e33f7843613184244876a5da0c5eef17, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -654,7 +654,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1052124695
-  m_SortingLayer: 5
+  m_SortingLayer: 1
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 7c92790c249da1643828134281188e9e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -866,10 +866,12 @@ MonoBehaviour:
   moonSpriteRenderer: {fileID: 7157374257904180247}
   moonSprites: {fileID: 7157374256674178643}
   collisionForces: 20
-  cameraPosition: {x: 4, y: 6}
+  cameraPosition: {x: 4, y: 6, z: 10}
   layerFadeOut: 0.1
   fadeOutSpriteRenderer: {fileID: 7157374256594567751}
-  timeBeforeMoonExplodes: 5
+  destroyed: 0
+  timeBeforeMoonExplodes: 2
+  cameraTransform: {fileID: 0}
 --- !u!50 &7157374257904180240
 Rigidbody2D:
   serializedVersion: 4
@@ -962,7 +964,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1052124695
-  m_SortingLayer: 5
+  m_SortingLayer: 1
   m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 4c2cd4b5e7cac9446a5ec78a27097100, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1228,7 +1230,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1052124695
-  m_SortingLayer: 5
+  m_SortingLayer: 1
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: b95ccb847342d8a4fadb9e1313b612f1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1441,7 +1443,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1052124695
-  m_SortingLayer: 5
+  m_SortingLayer: 1
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: fd903a741f85854418428a36da804e7f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

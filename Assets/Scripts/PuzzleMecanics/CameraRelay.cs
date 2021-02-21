@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class CameraRelay : MonoBehaviour
 {
-    [SerializeField] private new CinemachineVirtualCamera camera;
-    [SerializeField] private Transform cameraPos;
+    private new CinemachineVirtualCamera camera;
+    private Transform cameraPos;
     [SerializeField] private float defaultLensSize = 7;
     [SerializeField] private float defaultDamping = 0.3f;
     [SerializeField] private float deadZoneX = 0.1f;
@@ -30,7 +30,10 @@ public class CameraRelay : MonoBehaviour
 	private void Start()
     {
         playerPos = FindObjectOfType<PlayerController>().transform;
-    }
+		camera = FindObjectOfType<CinemachineVirtualCamera>();
+		cameraPos = transform;
+
+	}
 
     private void Update()
     {
