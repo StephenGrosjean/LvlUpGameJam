@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private new Transform transform;
 	[SerializeField] private new Rigidbody2D rigidbody;
 	[SerializeField] private new BoxCollider2D collider;
+	[SerializeField] private SpriteRenderer spriteRenderer;
 
 	[Header("Animator")]
 	private static readonly int Jump         = Animator.StringToHash("Jump");
@@ -46,10 +47,6 @@ public class PlayerController : MonoBehaviour
 	private float respawnTimeStamp;
 	private float fadeTimeStamp;
 
-	[Header("Fade Animator")] 
-	[SerializeField] private AudioSource audioSource;
-	[SerializeField] private AudioClip walkSound;
-
 	[Flags]
 	private enum PlayerState
 	{
@@ -68,6 +65,9 @@ public class PlayerController : MonoBehaviour
 	{
 		fadeAnimator.speed = 1.0f / respawnFadeLength;
 			
+		spriteRenderer.color = Color.white;
+		transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+		
 		animator.Play("Idle");
 		transform.position = respawnPoint.GetRespawnPoint().position;
 		respawnPoint.ReloadScene();
@@ -75,8 +75,28 @@ public class PlayerController : MonoBehaviour
 		Time.fixedDeltaTime = Time.timeScale * 0.02f;
 	}
 
+	public void KillSpikes()
+	{
+		Kill();
+	}
+
+	public void KillHammer(Vector2 velocity)
+	{
+		rigidbody.AddForce(velocity * (1000 / Time.fixedDeltaTime));
+		Kill();
+	}
+
+	public void KillRock()
+	{
+		var lossyScale = transform.lossyScale;
+		transform.localScale = new Vector3(lossyScale.x, 0.2f, lossyScale.z);
+		Kill();
+	}
+
 	public void Kill()
 	{
+		spriteRenderer.color = Color.red;
+		
 		animator.Play("Death");
 		state = (int) PlayerState.DEAD;
 

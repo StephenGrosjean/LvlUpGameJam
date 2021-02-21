@@ -127,7 +127,6 @@ GameObject:
   - component: {fileID: 6138500204560815469}
   - component: {fileID: 6138500204560815468}
   - component: {fileID: 6138500204560815471}
-  - component: {fileID: 2333161734956284206}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -230,23 +229,12 @@ MonoBehaviour:
   transform: {fileID: 6138500204560815470}
   rigidbody: {fileID: 6138500204560815469}
   collider: {fileID: 6138500204560815468}
+  spriteRenderer: {fileID: 6138500204360935380}
   respawnCooldown: 1
   respawnFadeLength: 1
   fadeImage: {fileID: 0}
   audioSource: {fileID: 8201631862844899336}
   walkSound: {fileID: 0}
---- !u!114 &2333161734956284206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6138500204560815467}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfcc90684ac869e449c0a1af6f7d9814, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6138500205689919643
 GameObject:
   m_ObjectHideFlags: 0
@@ -322,7 +310,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
