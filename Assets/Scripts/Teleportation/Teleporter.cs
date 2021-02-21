@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,44 +17,82 @@ public class Teleporter : MonoBehaviour
     [SerializeField] private Transform target;
     [SerializeField] private Gravity gravityDirection;
 
-    private void OnTriggerEnter2D(Collider2D collider)
+    private Rigidbody2D playerRb;
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collider.tag == playerTag)
-        {
+	    if (!other.CompareTag(playerTag)) return;
 
-            collider.transform.position = target.position;
+		var transform1 = other.transform;
+		playerRb       = transform1.GetComponent<Rigidbody2D>();
 
-            collider.transform.eulerAngles = RotatePlayer(gravityDirection);
-        }
-    }
+		transform1.position         = target.position;
+		transform1.eulerAngles = RotatePlayer(gravityDirection);
+	}
 
-    public Vector3 RotatePlayer(Teleporter.Gravity gravityDirection)
+    private Vector3 RotatePlayer(Gravity gravityDir)
     {
+		Vector3 rotation;
+		switch (gravityDir)
+		{
+			case Gravity.UP:
+			{
+				if (Physics2D.gravity.x != 0)
+				{
+					var velocity = playerRb.velocity;
+					velocity = new Vector2(velocity.y, velocity.x);
+					playerRb.velocity = velocity;
+				}
 
-        Vector3 rotation = new Vector3();
+				rotation = new Vector3(0, 0, 180);
+				Physics2D.gravity = new Vector3(0, 9.81f, 0);
+				break;
+			}
+			case Gravity.DOWN:
+			{
+				if (Physics2D.gravity.x != 0)
+				{
+					var velocity = playerRb.velocity;
+					velocity = new Vector2(velocity.y, velocity.x);
+					playerRb.velocity = velocity;
+				}
+				
+				rotation = new Vector3(0, 0, 0);
+				Physics2D.gravity = new Vector3(0, -9.81f, 0);
+				break;
+			}
+			case Gravity.LEFT:
+			{
+				if (Physics2D.gravity.y != 0)
+				{
+					var velocity = playerRb.velocity;
+					velocity = new Vector2(velocity.y, velocity.x);
+					playerRb.velocity = velocity;
+				}
+				
+				rotation = new Vector3(0, 0, 270);
+				Physics2D.gravity = new Vector3(-9.81f, 0, 0);
+				break;
+			}
+			case Gravity.RIGHT:
+			{
+				if (Physics2D.gravity.y != 0)
+				{
+					var velocity = playerRb.velocity;
+					velocity = new Vector2(velocity.y, velocity.x);
+					playerRb.velocity = velocity;
+				}
+				
+				rotation = new Vector3(0, 0, 90);
+				Physics2D.gravity = new Vector3(9.81f, 0, 0);
+				break;
+			}
+			default:
+				throw new ArgumentOutOfRangeException(
+					nameof(gravityDir), gravityDir, null);
+		}
 
-        if (gravityDirection == Teleporter.Gravity.UP)
-        {
-            rotation = new Vector3(0, 0, 180);
-            Physics2D.gravity = new Vector3(0, 9.81f, 0);
-        }
-        else if (gravityDirection == Teleporter.Gravity.DOWN)
-        {
-            rotation = new Vector3(0, 0, 0);
-            Physics2D.gravity = new Vector3(0, -9.81f, 0);
-        }
-        else if (gravityDirection == Teleporter.Gravity.LEFT)
-        {
-            rotation = new Vector3(0, 0, 270);
-            Physics2D.gravity = new Vector3(-9.81f, 0, 0);
-        }
-        else if (gravityDirection == Teleporter.Gravity.RIGHT)
-        {
-            rotation = new Vector3(0, 0, 90);
-            Physics2D.gravity = new Vector3(9.81f, 0, 0);
-        }
-
-        return rotation;
+		return rotation;
     }
 
 }
