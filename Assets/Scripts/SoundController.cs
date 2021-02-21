@@ -64,12 +64,14 @@ public class SoundController : MonoBehaviour
         {
             GameObject source = Instantiate(sourceObjFX, transform);
             source.name = "FXSource";
+            sourcesFX.Add(source.GetComponent<AudioSource>());
         }
 
         //Spawn audio sources
         for (int j = 0; j < musicSourceCount; j++) {
             GameObject source = Instantiate(sourceObjMusic, transform);
             source.name = "MusicSource";
+            sourcesMusic.Add(source.GetComponent<AudioSource>());
         }
     }
 

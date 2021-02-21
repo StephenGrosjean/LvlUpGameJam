@@ -36,7 +36,6 @@ public class PlayerController : MonoBehaviour
 	private static readonly int MoveX        = Animator.StringToHash("MoveX");
 	private static readonly int PushingBlock = Animator.StringToHash("PushingBlock");
 	private static readonly int PushMoveX    = Animator.StringToHash("PushMoveX");
-	private static readonly int Kill1        = Animator.StringToHash("Kill");
 	
 	[Header("Fade Animator")]
 	[SerializeField] private float respawnCooldown = 2.0f;
@@ -150,8 +149,9 @@ public class PlayerController : MonoBehaviour
 	{
 		float gravityY = Math.Sign(Physics2D.gravity.y);
 		float moveX    = Input.GetAxis("Horizontal");
-		var newRight   = (Quaternion.Euler(0.0f, 0.0f, 90.0f) * Physics2D.gravity).normalized;
-		var velocity   = rigidbody.velocity;
+
+		var newRight = (Quaternion.Euler(0.0f, 0.0f, 90.0f) * Physics2D.gravity).normalized;
+		var velocity = rigidbody.velocity;
 
 		if (Physics2D.gravity.y != 0.0f)
 		{
