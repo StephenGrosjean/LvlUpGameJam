@@ -35,6 +35,13 @@ public class DeathManager : MonoBehaviour
         Debug.Log(velocity);
         StartCoroutine(KillCoolDown());
     }
+    public void KillRock()
+    {
+        playerRenderer.color = Color.red;
+        playerController.enabled = false;
+        transform.localScale = new Vector3(transform.lossyScale.x, 0.2f, transform.lossyScale.z);
+        StartCoroutine(KillCoolDown());
+    }
 
     IEnumerator KillCoolDown()
     {
