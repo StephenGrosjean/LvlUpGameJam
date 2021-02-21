@@ -6,27 +6,42 @@ using Vec3f = UnityEngine.Vector3;
 public class PlayerController : MonoBehaviour
 {
 	[Header("Player Movements")]
-	[SerializeField] private float moveSpeed = 5.0f;
-	[SerializeField] private float jumpStrength = 7.5f;
-	[SerializeField] private float fallMultiplier = 1.5f;
-	[SerializeField] private float lowJumpMultiplier = 0.1f;
-	[SerializeField] private float jumpGroundDist = 0.2f;
-	[SerializeField] private float jumpCastWidth = 1.0f;
-	[SerializeField] private Transform jumpRayOrigin;
-	[SerializeField] private LayerMask groundLayers;
-	[SerializeField] private LayerMask blockLayer;
+	[SerializeField]
+	private float moveSpeed = 5.0f;
+	[SerializeField]
+	private float jumpStrength = 7.5f;
+	[SerializeField]
+	private float fallMultiplier = 1.5f;
+	[SerializeField]
+	private float lowJumpMultiplier = 0.1f;
+	[SerializeField]
+	private float jumpGroundDist = 0.2f;
+	[SerializeField]
+	private float jumpCastWidth = 1.0f;
+	[SerializeField]
+	private Transform jumpRayOrigin;
+	[SerializeField]
+	private LayerMask groundLayers;
+	[SerializeField]
+	private LayerMask blockLayer;
 	private int state = (int) PlayerState.CAN_MOVE;
 
 	[Header("Block Moving")]
-	[SerializeField] private float grabMaxRange = 1.0f;
-	[SerializeField] private float blockMoveSpeed = 1.0f;
+	[SerializeField]
+	private float grabMaxRange = 1.0f;
+	[SerializeField]
+	private float blockMoveSpeed = 1.0f;
 	private PushableBlock heldBlock;
 
 	[Header("Components")]
-	[SerializeField] private Animator animator;
-	[SerializeField] private new Transform transform;
-	[SerializeField] private new Rigidbody2D rigidbody;
-	[SerializeField] private new BoxCollider2D collider;
+	[SerializeField]
+	private Animator animator;
+	[SerializeField]
+	private new Transform transform;
+	[SerializeField]
+	private new Rigidbody2D rigidbody;
+	[SerializeField]
+	private new BoxCollider2D collider;
 
 	[Header("Animator")]
 	private static readonly int Jump         = Animator.StringToHash("Jump");
@@ -46,9 +61,8 @@ public class PlayerController : MonoBehaviour
 		if ((state & (int) PlayerState.CAN_MOVE) != 0)
 		{
 			CheckMove();
-			
-			if ((state & (int) PlayerState.PUSHING_BLOCK) == 0)
-				CheckJump();
+
+			if ((state & (int) PlayerState.PUSHING_BLOCK) == 0) CheckJump();
 		}
 		else
 		{
@@ -67,41 +81,70 @@ public class PlayerController : MonoBehaviour
 	private void CheckMove()
 	{
 		float gravityY = Math.Sign(Physics2D.gravity.y);
-		float moveX  = Input.GetAxis("Horizontal");
-		var velocity = rigidbody.velocity;
+		float moveX    = Input.GetAxis("Horizontal");
+		var newRight   = (Quaternion.Euler(0.0f, 0.0f, 90.0f) * Physics2D.gravity).normalized;
+		var velocity   = rigidbody.velocity;
 
-		velocity = (state & (int) PlayerState.PUSHING_BLOCK) != 0 ?
-                       new Vec3f(moveX * blockMoveSpeed * -gravityY, velocity.y, 0.0f) :
-                       new Vec3f(moveX * moveSpeed * -gravityY, velocity.y, 0.0f);
+		if (Physics2D.gravity.y != 0.0f)
+		{
+			velocity = (state & (int) PlayerState.PUSHING_BLOCK) != 0 ?
+                           new Vec3f(moveX * blockMoveSpeed * -gravityY, velocity.y, 0.0f) :
+                           new Vec3f(moveX * moveSpeed * -gravityY, velocity.y, 0.0f);
+			
+			animator.SetFloat(MoveX, Math.Abs(velocity.x));
+			animator.SetFloat(PushMoveX, velocity.x * transform.localScale.x);
+		}
+		else if (Physics2D.gravity.x != 0.0f)
+		{
+			velocity = (state & (int) PlayerState.PUSHING_BLOCK) != 0 ?
+                           new Vec3f(velocity.x, moveX * blockMoveSpeed * newRight.y, 0.0f) :
+                           new Vec3f(velocity.x, moveX * moveSpeed * newRight.y, 0.0f);
+			
+			animator.SetFloat(MoveX, Math.Abs(velocity.y));
+			animator.SetFloat(PushMoveX, velocity.y * transform.localScale.x);
+		}
 
 		rigidbody.velocity = velocity;
-		animator.SetFloat(MoveX, Math.Abs(velocity.x));
-		animator.SetFloat(PushMoveX, velocity.x * transform.localScale.x);
 
-		if (Math.Abs(rigidbody.velocity.x) < 0.1f)
-			rigidbody.constraints |= RigidbodyConstraints2D.FreezePositionX;
-		else
-			rigidbody.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
+		if (Physics2D.gravity.y != 0.0f)
+		{
+			if (Math.Abs(rigidbody.velocity.x) < 0.1f)
+				rigidbody.constraints |= RigidbodyConstraints2D.FreezePositionX;
+			else
+				rigidbody.constraints &= ~RigidbodyConstraints2D.FreezePositionX;
+		}
+		else if (Physics2D.gravity.x != 0.0f)
+		{
+			if (Math.Abs(rigidbody.velocity.y) < 0.1f)
+				rigidbody.constraints |= RigidbodyConstraints2D.FreezePositionY;
+			else
+				rigidbody.constraints &= ~RigidbodyConstraints2D.FreezePositionY;
+		}
 
 		if (!Input.GetButton("Interact"))
 		{
-			int sign = Math.Sign((transform.localRotation * velocity).x);
+			var sign = 0;
+			if (Physics2D.gravity.y != 0.0f)
+				sign = Math.Sign((transform.localRotation * velocity).x);
+			else if (Physics2D.gravity.x != 0.0f)
+				sign = Math.Sign(-(transform.localRotation * velocity).x);
 			if (sign == 0) return;
-			
+
 			transform.localScale = new Vec3f(sign, 1.0f, 1.0f);
 		}
 	}
 
 	private void CheckJump()
 	{
+		float gravityX = Mathf.Sign(Physics2D.gravity.x);
 		float gravityY = Math.Sign(Physics2D.gravity.y);
-		var newUp      = new Vec2f(0.0f, -gravityY);
+		var newUp      = -new Vec2f(gravityX, gravityY);
 		var hit        = Physics2D.CircleCast(
             jumpRayOrigin.position, jumpCastWidth, -newUp, jumpGroundDist, groundLayers);
 
 		if (hit) state |= (int) PlayerState.CAN_JUMP;
-		else
-			state &= (int) ~PlayerState.CAN_JUMP;
+		else state &= (int) ~PlayerState.CAN_JUMP;
+		
 		animator.SetBool(CanJump, (state & (int) PlayerState.CAN_JUMP) != 0);
 
 		if (Input.GetButtonDown("Jump") && (state & (int) PlayerState.CAN_JUMP) != 0)
@@ -109,18 +152,36 @@ public class PlayerController : MonoBehaviour
 			animator.SetTrigger(Jump);
 			rigidbody.velocity = newUp * jumpStrength;
 		}
-		else if (rigidbody.velocity.y * -gravityY > 0.0f && !Input.GetButton("Jump"))
+		else if (!Input.GetButton("Jump"))
 		{
-			rigidbody.velocity +=
-				newUp * (Physics2D.gravity.y * lowJumpMultiplier * Time.deltaTime * -gravityY);
+			if (Physics2D.gravity.y != 0.0f && rigidbody.velocity.y * -gravityY > 0.0f)
+			{
+				rigidbody.velocity +=
+					newUp * (Physics2D.gravity.y * lowJumpMultiplier * Time.deltaTime * -gravityY);
+			}
+			else if (Physics2D.gravity.x != 0.0f && rigidbody.velocity.x * -gravityX > 0.0f)
+			{
+				rigidbody.velocity +=
+					newUp * (Physics2D.gravity.x * lowJumpMultiplier * Time.deltaTime * -gravityX);
+			}
 		}
 		else
 		{
 			animator.ResetTrigger(Jump);
 		}
 
-		animator.SetFloat(VelocityY, rigidbody.velocity.y * -gravityY);
-		rigidbody.gravityScale = rigidbody.velocity.y * -gravityY < -2.0f ? fallMultiplier : 1.0f;
+		if (Physics2D.gravity.y != 0.0f)
+		{
+			animator.SetFloat(VelocityY, rigidbody.velocity.y * -gravityY);
+			rigidbody.gravityScale =
+				rigidbody.velocity.y * -gravityY < -2.0f ? fallMultiplier : 1.0f;
+		}
+		else if (Physics2D.gravity.x != 0.0f)
+		{
+			animator.SetFloat(VelocityY, rigidbody.velocity.x * -gravityX);
+			rigidbody.gravityScale =
+				rigidbody.velocity.x * -gravityX < -2.0f ? fallMultiplier : 1.0f;
+		}
 	}
 
 	private void PushBlock()
@@ -192,9 +253,10 @@ public class PlayerController : MonoBehaviour
 		Gizmos.color = Color.yellow;
 		Gizmos.DrawLine(transform.position, transform.position + dirRay);
 
+		float gravityX = Math.Sign(Physics2D.gravity.x);
 		float gravityY = Math.Sign(Physics2D.gravity.y);
-		var newDown = new Vec2f(0.0f, gravityY);
-		dirRay      = newDown * jumpGroundDist;
+		var newDown    = new Vec2f(gravityX, gravityY);
+		dirRay         = newDown * jumpGroundDist;
 		Gizmos.DrawCube(
 			jumpRayOrigin.position + dirRay / 2.0f, new Vec3f(jumpCastWidth, jumpGroundDist));
 	}
