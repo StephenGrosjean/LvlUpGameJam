@@ -1,17 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Cinemachine;
 using UnityEngine;
 
 public class Moon : MonoBehaviour
 {
     [SerializeField] private GameObject moonSpriteRenderer;
-    [SerializeField] private Transform cameraTransform;
-    [SerializeField] private Transform playerTransform;
+    //[SerializeField] private Transform cameraTransform;
+    //[SerializeField] private Transform playerTransform;
     [SerializeField] private GameObject moonSprites;
     [SerializeField] private float collisionForces;
 
-    [SerializeField] Vector2 cameraPosition = new Vector2(2,3);
+    [SerializeField] Vector3 cameraPosition = new Vector3(6,8, 10);
 
     private List<Rigidbody2D> moonRigidbody2Ds = new List<Rigidbody2D>();
     private List<Collider2D> moonColliders = new List<Collider2D>();
@@ -25,22 +26,32 @@ public class Moon : MonoBehaviour
 
     [SerializeField] private float timeBeforeMoonExplodes = 5f;
 
+    [SerializeField] private Transform cameraTransform;
+
     private float timer;
 
     private void Start()
     {
+        transform.parent = cameraTransform;
         moonRigidbody2Ds.AddRange(moonSprites.GetComponentsInChildren<Rigidbody2D>());
         moonColliders.AddRange(moonSprites.GetComponentsInChildren<Collider2D>());
         moonSpriteRenderers.AddRange(moonSprites.GetComponentsInChildren<SpriteRenderer>());
+
+        fadeOutSpriteRenderer.transform.parent = cameraTransform;
+
+        transform.localPosition = cameraPosition;
+
     }
-    private void Update()
+    private void LateUpdate()
     {
+
+        
+        cameraTransform.localPosition = cameraPosition;
         if (!destroyed)
         {
-            cameraTransform.position = new Vector3(playerTransform.position.x, cameraTransform.position.y,
-                cameraTransform.position.z);
-            transform.position = new Vector2(cameraTransform.position.x + cameraPosition.x,
-                cameraTransform.position.y + cameraPosition.y);
+            //Camera.main.transform.position = new Vector3(playerTransform.position.x, cameraTransform.position.y,
+            //cameraTransform.position.z);
+            // transform.position = new Vector3(cameraTransform.transform.position.x + cameraPosition.x, cameraTransform.transform.position.y + cameraPosition.y, 0);
         }
     }
 
@@ -63,6 +74,7 @@ public class Moon : MonoBehaviour
         {
             if (collider.tag == "Wall")
             {
+                transform.parent = null;
                 foreach (Rigidbody2D currentRigidbody in moonRigidbody2Ds)
                 {
                     currentRigidbody.bodyType = RigidbodyType2D.Dynamic;

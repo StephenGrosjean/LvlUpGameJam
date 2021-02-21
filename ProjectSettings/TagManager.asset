@@ -41,10 +41,12 @@ TagManager:
   - 
   - 
   - 
-  - 
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Moon
+    uniqueID: 3242842601
     locked: 0
   - name: Background_2
     uniqueID: 2145176311
@@ -58,9 +60,6 @@ TagManager:
   - name: Level
     uniqueID: 3492404923
     locked: 0
-  - name: Moon
-    uniqueID: 3242842601
-    locked: 0
   - name: Background
     uniqueID: 4220930071
     locked: 0
@@ -70,4 +69,3 @@ TagManager:
   - name: UI
     uniqueID: 3690841071
     locked: 0
- 
