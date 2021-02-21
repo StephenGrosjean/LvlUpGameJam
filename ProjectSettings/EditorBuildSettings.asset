@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Simon/UITest.unity
     guid: bfb77061604252ff3a82eed7b28cfe03
   - enabled: 1
-    path: Assets/Scenes/Main.unity
-    guid: 3ccca81795e474c8a90688115e8ef5b4
+    path: Assets/Scenes/LDLucaFinal.unity
+    guid: 2068aecdab38daa41bdeebc7aee5c86b
   m_configObjects: {}
