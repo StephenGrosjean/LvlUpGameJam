@@ -13,16 +13,14 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private float jumpGroundDist = 0.2f;
 	[SerializeField] private float jumpCastWidth = 1.0f;
 	[SerializeField] private Transform jumpRayOrigin;
-	[SerializeField] private LayerMask groundLayer;
+	[SerializeField] private LayerMask groundLayers;
+	[SerializeField] private LayerMask blockLayer;
 	private int state = (int) PlayerState.CAN_MOVE;
 
 	[Header("Block Moving")]
 	[SerializeField] private float grabMaxRange = 1.0f;
 	[SerializeField] private float blockMoveSpeed = 1.0f;
-	private GameObject heldBlock;
-	private BoxCollider2D heldBlockCollider;
-	private Rigidbody2D heldBlockRb;
-	private FixedJoint2D heldBlockJoint;
+	private PushableBlock heldBlock;
 
 	[Header("Components")]
 	[SerializeField] private Animator animator;
@@ -48,15 +46,17 @@ public class PlayerController : MonoBehaviour
 		if ((state & (int) PlayerState.CAN_MOVE) != 0)
 		{
 			CheckMove();
-			CheckJump();
+			
+			if ((state & (int) PlayerState.PUSHING_BLOCK) == 0)
+				CheckJump();
 		}
 		else
 		{
 			rigidbody.velocity = Vec2f.zero;
-			if ((state & (int) PlayerState.PUSHING_BLOCK) != 0)
+			if (heldBlock != null)
 			{
 				transform.localScale =
-					new Vec2f(Math.Sign(heldBlock.transform.position.x - transform.position.x),
+					new Vec2f(Math.Sign(heldBlock.Transform.position.x - transform.position.x),
 						transform.localScale.y);
 			}
 		}
@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
 		float gravityY = Math.Sign(Physics2D.gravity.y);
 		var newUp      = new Vec2f(0.0f, -gravityY);
 		var hit        = Physics2D.CircleCast(
-            jumpRayOrigin.position, jumpCastWidth, -newUp, jumpGroundDist, groundLayer);
+            jumpRayOrigin.position, jumpCastWidth, -newUp, jumpGroundDist, groundLayers);
 
 		if (hit) state |= (int) PlayerState.CAN_JUMP;
 		else
@@ -125,55 +125,64 @@ public class PlayerController : MonoBehaviour
 
 	private void PushBlock()
 	{
-		if ((state & (int) PlayerState.CAN_JUMP) == 0) return;
+		if (rigidbody.velocity.y != 0.0f) return;
 
 		animator.SetBool(PushingBlock, (state & (int) PlayerState.PUSHING_BLOCK) != 0);
 		var dirRay = Vec3f.right * (transform.localScale.x * 1.0f);
-		var hit    = Physics2D.Raycast(transform.position, dirRay, grabMaxRange, groundLayer);
-		if (hit && hit.collider.CompareTag("PushableBloc") && Input.GetButton("Interact"))
+		var hit    = Physics2D.Raycast(transform.position, dirRay, grabMaxRange, blockLayer);
+		if (hit)
 		{
 			if (Input.GetButtonDown("Interact"))
 			{
-				heldBlock         = hit.collider.gameObject;
-				heldBlockRb       = heldBlock.GetComponent<Rigidbody2D>();
-				heldBlockCollider = heldBlock.GetComponent<BoxCollider2D>();
-				heldBlockJoint    = heldBlock.GetComponent<FixedJoint2D>();
+				Debug.Log("Grab");
 
-				if (heldBlock.transform.position.x - transform.position.x > 0)
+				heldBlock = new PushableBlock(hit.collider.gameObject);
+
+				var blockSize  = heldBlock.Collider.size;
+				var playerSize = GetComponent<BoxCollider2D>().size;
+				if (heldBlock.Transform.position.x - transform.position.x > 0)
 				{
-					var blockSize       = heldBlockCollider.size;
-					var playerSize      = GetComponent<BoxCollider2D>().size;
 					transform.position = new Vec2f(
-						heldBlock.transform.position.x - blockSize.x / 2.0f - playerSize.x / 2.0f,
+						heldBlock.Transform.position.x - blockSize.x / 2.0f - playerSize.x / 2.0f,
 						transform.position.y);
-					rigidbody.velocity = Vec2f.zero;
 				}
 				else
 				{
-					var blockSize       = heldBlockCollider.size;
-					var playerSize      = GetComponent<BoxCollider2D>().size;
 					transform.position = new Vec2f(
-						heldBlock.transform.position.x + blockSize.x / 2.0f + playerSize.x / 2.0f,
+						heldBlock.Transform.position.x + blockSize.x / 2.0f + playerSize.x / 2.0f,
 						transform.position.y);
-					rigidbody.velocity = Vec2f.zero;
 				}
+				rigidbody.velocity = Vec2f.zero;
+
+				state = 0;
+				return;
 			}
 
-			heldBlockRb.mass             = 1.0f;
-			heldBlockJoint.enabled       = true;
-			heldBlockJoint.connectedBody = rigidbody;
+			if (hit && Input.GetButton("Interact"))
+			{
+				Debug.Log("Grabbing");
 
-			state = (int) PlayerState.PUSHING_BLOCK | (int) PlayerState.CAN_MOVE;
+				heldBlock.Rigidbody.mass      = 1.0f;
+				heldBlock.Joint.enabled       = true;
+				heldBlock.Joint.connectedBody = rigidbody;
+
+				state = (int) PlayerState.PUSHING_BLOCK | (int) PlayerState.CAN_MOVE;
+				return;
+			}
 		}
-		else if (Input.GetButtonUp("Interact") && heldBlock)
+
+		if (heldBlock != null)
 		{
+			Debug.Log("Ungrab");
+
 			rigidbody.velocity = Vec2f.zero;
 
-			heldBlockRb.mass       = 1000.0f;
-			heldBlockRb.velocity   = Vec2f.zero;
-			heldBlockJoint.enabled = false;
-			
-			state = (int) PlayerState.CAN_MOVE;
+			heldBlock.Rigidbody.mass     = 1000.0f;
+			heldBlock.Rigidbody.velocity = Vec2f.zero;
+			heldBlock.Joint.enabled      = false;
+
+			heldBlock = null;
+			state     = (int) PlayerState.CAN_MOVE;
 		}
 	}
 
