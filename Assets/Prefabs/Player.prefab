@@ -218,7 +218,7 @@ MonoBehaviour:
   jumpRayOrigin: {fileID: 6138500205689919644}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 520
   grabMaxRange: 0.6
   blockMoveSpeed: 2
   animator: {fileID: 6138500204360935381}
