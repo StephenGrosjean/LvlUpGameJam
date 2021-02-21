@@ -299,17 +299,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85f2ca9c64acc9d4eab2e7051aac1b25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fxSourceCount: 10
-  musicSourceCount: 10
+  fxSourceCount: 20
+  musicSourceCount: 5
   fxClips:
   - name: 0
-    clip: {fileID: 0}
-  - name: 0
-    clip: {fileID: 0}
+    clip:
+    - {fileID: 8300000, guid: 61b19c2e7534b3248ace3812e791d9cb, type: 3}
+  - name: 1
+    clip:
+    - {fileID: 8300000, guid: 672f8e35239c1c949a659ed2b38dc5fa, type: 3}
+  - name: 2
+    clip:
+    - {fileID: 8300000, guid: 92c679ae875b14f4ebd24d5f388d357a, type: 3}
+  - name: 3
+    clip:
+    - {fileID: 8300000, guid: 61bb927ce47312e4cab8597b3850dcba, type: 3}
+  - name: 4
+    clip:
+    - {fileID: 8300000, guid: 81cdda1441bb1504f8f1efffa970c0ad, type: 3}
+  - name: 5
+    clip:
+    - {fileID: 8300000, guid: 7c6cfcd40c587ae4daec6f68560c3368, type: 3}
+  - name: 6
+    clip:
+    - {fileID: 8300000, guid: 06693867bf158aa4284f1fdff033cab5, type: 3}
+  - name: 7
+    clip:
+    - {fileID: 8300000, guid: 1d909aa4b37166849be81cbc7e5ae9a2, type: 3}
+    - {fileID: 8300000, guid: 95dd4314aef55ca488793f1dd9e9458f, type: 3}
+    - {fileID: 8300000, guid: 92e8fcf6fc32f794889e1edde305f5a1, type: 3}
+    - {fileID: 8300000, guid: 0c3eeb2e39e2eb249af2e242f0a7f8ac, type: 3}
+  - name: 8
+    clip:
+    - {fileID: 8300000, guid: 8404a1e8f9ea8dd43bf618c632eea50b, type: 3}
+    - {fileID: 8300000, guid: bcc93cca1b92e894aa963e61faadfc4c, type: 3}
+    - {fileID: 8300000, guid: def86dcf7a3273c4facde8f44a62268f, type: 3}
+    - {fileID: 8300000, guid: 0f6db719bccc27549a5f0440bd7a5114, type: 3}
   musicClips:
   - name: 0
-    clip: {fileID: 0}
+    clip: []
   - name: 0
-    clip: {fileID: 0}
+    clip: []
   sourceObjFX: {fileID: 391062646}
   sourceObjMusic: {fileID: 393225270}

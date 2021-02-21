@@ -3,17 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using Random = UnityEngine.Random;
 
 public enum FX
 {
-    fx1,
-    fx2
+    bang1,
+    glassbreak,
+    factoryAmbient,
+    forestAmbient,
+    nightCricketsAmbient,
+    rollingStone,
+    woosh,
+    stepGrass,
+    stepFactory
 }
 
 public enum MUSIC
 {
     Menu,
-    Game
+    Game,
 }
 
 public class SoundController : MonoBehaviour
@@ -22,13 +30,13 @@ public class SoundController : MonoBehaviour
     public class FXClip
     {
         public FX name;
-        public AudioClip clip;
+        public List<AudioClip> clip = new List<AudioClip>();
     }
 
     [Serializable]
     public class MusicClip {
         public MUSIC name;
-        public AudioClip clip;
+        public List<AudioClip> clip = new List<AudioClip>();
     }
 
     public static SoundController instance;
@@ -95,7 +103,7 @@ public class SoundController : MonoBehaviour
         {
             if (f.name == fx)
             {
-                return f.clip;
+                return f.clip[Random.Range(0, f.clip.Count-1)];
             }
         }
         Debug.LogError("NO CLIP FOUND");
@@ -105,7 +113,7 @@ public class SoundController : MonoBehaviour
     private AudioClip FindClip(MUSIC music) {
         foreach (MusicClip m in musicClips) {
             if (m.name == music) {
-                return m.clip;
+                return m.clip[Random.Range(0, m.clip.Count - 1)];
             }
         }
         Debug.LogError("NO CLIP FOUND");
