@@ -21,10 +21,10 @@ public class CameraRelay : MonoBehaviour
 
 	public void SetFollow(Transform trans)
 	{
-		if (camera.Follow == trans) return;
+		if (camera.Follow == trans && camera.m_Lens.OrthographicSize == targetLensSize) return;
 		follow = trans;
 	}
-    
+
 	public void SetLensSize(float lensSize) { targetLensSize = lensSize; }
 
 	private void Start()
@@ -48,7 +48,8 @@ public class CameraRelay : MonoBehaviour
 		camera.m_Lens.OrthographicSize =
 			Mathf.Lerp(camera.m_Lens.OrthographicSize, targetLensSize, lerpSpeed);
 
-		if (Mathf.Abs(follow.position.x - cameraPos.position.x) < 1.0f)
+		if (Mathf.Abs(follow.position.x - cameraPos.position.x) < 1.0f &&
+			Mathf.Abs(defaultLensSize - targetLensSize) < 0.5f)
 		{
 			camera.m_Lens.OrthographicSize = targetLensSize;
 			camera.Follow                  = follow;

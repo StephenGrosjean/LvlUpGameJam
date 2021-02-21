@@ -5,6 +5,7 @@ using UnityEngine;
 public class AnchorTrigger : MonoBehaviour
 {
 	[SerializeField] private Transform anchor;
+	[SerializeField] private float lensSize;
 
 	private CameraRelay relay;
 	private Transform playerPos;
@@ -19,7 +20,7 @@ public class AnchorTrigger : MonoBehaviour
 	{
 		if (!other.CompareTag("Player")) return;
 
+		relay.SetLensSize(lensSize);
 		relay.SetFollow(anchor ? anchor : playerPos);
-		relay.SetLensSize(anchor ? -anchor.position.z : relay.GetLensSize());
 	}
 }
