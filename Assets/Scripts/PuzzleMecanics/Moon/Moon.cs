@@ -19,7 +19,7 @@ public class Moon : MonoBehaviour
     private List<SpriteRenderer> moonSpriteRenderers = new List<SpriteRenderer>();
 
 
-    [SerializeField] private float layerFadeOut = 0.01f;
+    [SerializeField] public float layerFadeOut = 0.01f;
     [SerializeField] private SpriteRenderer fadeOutSpriteRenderer;
 
     public bool destroyed = false;
