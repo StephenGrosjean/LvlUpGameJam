@@ -237,7 +237,7 @@ PolygonCollider2D:
   m_GameObject: {fileID: 2539359}
   m_Enabled: 0
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 07dafa93b68b0af4c83881be34a16e4b, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -450,7 +450,7 @@ PolygonCollider2D:
   m_GameObject: {fileID: 40419517}
   m_Enabled: 0
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 07dafa93b68b0af4c83881be34a16e4b, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -559,7 +559,7 @@ GameObject:
   m_Component:
   - component: {fileID: 203354469}
   - component: {fileID: 203354470}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -890,7 +890,7 @@ PolygonCollider2D:
   m_GameObject: {fileID: 794127792}
   m_Enabled: 0
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 07dafa93b68b0af4c83881be34a16e4b, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1108,7 +1108,7 @@ PolygonCollider2D:
   m_GameObject: {fileID: 817721264}
   m_Enabled: 0
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 07dafa93b68b0af4c83881be34a16e4b, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1326,6 +1326,7 @@ MonoBehaviour:
   cameraTransform: {fileID: 1872119437}
   playerTransform: {fileID: 645033640}
   moonSprites: {fileID: 1612213557}
+  collisionForces: 20
   cameraPosition: {x: 2, y: 3}
 --- !u!50 &996685686
 Rigidbody2D:
@@ -1394,7 +1395,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1562001504}
   - component: {fileID: 1562001505}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Wall
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -1762,7 +1763,7 @@ PolygonCollider2D:
   m_GameObject: {fileID: 1994859556}
   m_Enabled: 0
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 07dafa93b68b0af4c83881be34a16e4b, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1986,7 +1987,7 @@ PolygonCollider2D:
   m_GameObject: {fileID: 2142388207}
   m_Enabled: 0
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 07dafa93b68b0af4c83881be34a16e4b, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
