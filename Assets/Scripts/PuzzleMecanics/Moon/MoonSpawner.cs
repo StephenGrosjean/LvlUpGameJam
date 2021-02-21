@@ -10,7 +10,8 @@ public class MoonSpawner : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Instantiate(moon);
+            Moon moonObj = Instantiate(moon).GetComponent<Moon>();
+            moonObj.layerFadeOut = 0;
         }
     }
 }
