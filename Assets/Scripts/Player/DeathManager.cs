@@ -7,9 +7,13 @@ using UnityEngine.SceneManagement;
 public class DeathManager : MonoBehaviour
 {
     private SpriteRenderer playerRenderer;
+    private PlayerController playerController;
+    private Rigidbody2D playerBody;
 
     void Start() {
         playerRenderer = GetComponentInChildren<SpriteRenderer>();
+        playerController = GetComponent<PlayerController>();
+        playerBody = GetComponent<Rigidbody2D>();
     }
 
     public void Respawn()
@@ -20,9 +24,18 @@ public class DeathManager : MonoBehaviour
     public void KillPeaks()
     {
         playerRenderer.color = Color.red;
+        playerController.enabled = false;
         StartCoroutine(KillCoolDown());
     }
-    
+    public void KillHammer(Vector2 velocity)
+    {
+        playerRenderer.color = Color.red;
+        playerController.enabled = false;
+        playerBody.AddForce(velocity * 1000);
+        Debug.Log(velocity);
+        StartCoroutine(KillCoolDown());
+    }
+
     IEnumerator KillCoolDown()
     {
         yield return new WaitForSeconds(1.0f);

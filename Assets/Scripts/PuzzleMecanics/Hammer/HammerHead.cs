@@ -12,6 +12,18 @@ public class HammerHead : MonoBehaviour
         {
             hammer.TouchCase();
         }
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            hammer.HeadTouchGround();
+        }
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if (hammer.active)
+            {
+                collision.gameObject.GetComponent<DeathManager>().KillHammer(-collision.GetContact(0).normal);
+                GetComponent<BoxCollider2D>().isTrigger = true;
+            }
+        }
     }
 
 
