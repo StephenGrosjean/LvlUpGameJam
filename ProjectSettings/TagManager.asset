@@ -45,6 +45,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background_2
+    uniqueID: 2145176311
+    locked: 0
+  - name: Background_1
+    uniqueID: 3717486483
+    locked: 0
+  - name: Player
+    uniqueID: 2606183927
+    locked: 0
+  - name: Level
+    uniqueID: 3492404923
+    locked: 0
   - name: Moon
     uniqueID: 3242842601
+    locked: 0
+  - name: Foreground
+    uniqueID: 687333291
     locked: 0

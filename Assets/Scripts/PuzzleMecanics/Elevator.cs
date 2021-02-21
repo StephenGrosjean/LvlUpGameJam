@@ -27,7 +27,7 @@ public class Elevator : MonoBehaviour
         platform.position = firstPos.position;
     }
 
-    void Update() {
+    void FixedUpdate() {
         Debug.Log(Vector3.Distance(platform.transform.position, endPos.position));
         if (active)
         {
