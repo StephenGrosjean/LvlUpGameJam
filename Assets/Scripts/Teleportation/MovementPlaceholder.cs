@@ -7,7 +7,9 @@ public class MovementPlaceholder : MonoBehaviour
     [SerializeField] private Rigidbody2D playeRigidbody2D;
     [SerializeField] private float velocity;
     [SerializeField] private Transform cameraTransform;
-    
+
+
+
 
     void FixedUpdate()
     {
