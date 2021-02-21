@@ -1,47 +1,32 @@
 using System;
 using UnityEngine;
-
+using UnityEngine.UI;
 using Vec2f = UnityEngine.Vector2;
 using Vec3f = UnityEngine.Vector3;
 public class PlayerController : MonoBehaviour
 {
 	[Header("Player Movements")]
-	[SerializeField]
-	private float moveSpeed = 5.0f;
-	[SerializeField]
-	private float jumpStrength = 7.5f;
-	[SerializeField]
-	private float fallMultiplier = 1.5f;
-	[SerializeField]
-	private float lowJumpMultiplier = 0.1f;
-	[SerializeField]
-	private float jumpGroundDist = 0.2f;
-	[SerializeField]
-	private float jumpCastWidth = 1.0f;
-	[SerializeField]
-	private Transform jumpRayOrigin;
-	[SerializeField]
-	private LayerMask groundLayers;
-	[SerializeField]
-	private LayerMask blockLayer;
+	[SerializeField] private float moveSpeed = 5.0f;
+	[SerializeField] private float jumpStrength = 7.5f;
+	[SerializeField] private float fallMultiplier = 1.5f;
+	[SerializeField] private float lowJumpMultiplier = 0.1f;
+	[SerializeField] private float jumpGroundDist = 0.2f;
+	[SerializeField] private float jumpCastWidth = 1.0f;
+	[SerializeField] private Transform jumpRayOrigin;
+	[SerializeField] private LayerMask groundLayers;
+	[SerializeField] private LayerMask blockLayer;
 	private int state = (int) PlayerState.CAN_MOVE;
 
 	[Header("Block Moving")]
-	[SerializeField]
-	private float grabMaxRange = 1.0f;
-	[SerializeField]
-	private float blockMoveSpeed = 1.0f;
+	[SerializeField] private float grabMaxRange = 1.0f;
+	[SerializeField] private float blockMoveSpeed = 1.0f;
 	private PushableBlock heldBlock;
 
 	[Header("Components")]
-	[SerializeField]
-	private Animator animator;
-	[SerializeField]
-	private new Transform transform;
-	[SerializeField]
-	private new Rigidbody2D rigidbody;
-	[SerializeField]
-	private new BoxCollider2D collider;
+	[SerializeField] private Animator animator;
+	[SerializeField] private new Transform transform;
+	[SerializeField] private new Rigidbody2D rigidbody;
+	[SerializeField] private new BoxCollider2D collider;
 
 	[Header("Animator")]
 	private static readonly int Jump         = Animator.StringToHash("Jump");
@@ -50,14 +35,77 @@ public class PlayerController : MonoBehaviour
 	private static readonly int MoveX        = Animator.StringToHash("MoveX");
 	private static readonly int PushingBlock = Animator.StringToHash("PushingBlock");
 	private static readonly int PushMoveX    = Animator.StringToHash("PushMoveX");
+	private static readonly int Kill1        = Animator.StringToHash("Kill");
+	
+	[Header("Fade Animator")]
+	[SerializeField] private float respawnCooldown = 2.0f;
+	[SerializeField] private float respawnFadeLength = 2.0f;
+	[SerializeField] private Image fadeImage;
+	private Checkpoint respawnPoint;
+	private Animator fadeAnimator;
+	private float respawnTimeStamp;
+	private float fadeTimeStamp;
+
+	[Header("Fade Animator")] 
+	[SerializeField] private AudioSource audioSource;
+	[SerializeField] private AudioClip walkSound;
 
 	[Flags]
-	public enum PlayerState { NONE = 0, CAN_MOVE = 1 << 0, CAN_JUMP = 1 << 1, PUSHING_BLOCK = 1 << 2 }
+	private enum PlayerState
+	{
+		NONE = 0, 
+		CAN_MOVE = 1 << 0, 
+		CAN_JUMP = 1 << 1, 
+		PUSHING_BLOCK = 1 << 2, 
+		DEAD = 1 << 3
+	}
 
 	public void SetState(int newState) { state = newState; }
 
+	public void SetRespawnPoint(Checkpoint trans) { respawnPoint = trans; }
+
+	private void Respawn()
+	{
+		fadeAnimator.speed = 1.0f / respawnFadeLength;
+			
+		animator.Play("Idle");
+		transform.position = respawnPoint.GetRespawnPoint().position;
+		respawnPoint.ReloadScene();
+		Time.timeScale = 1.0f;
+		Time.fixedDeltaTime = Time.timeScale * 0.02f;
+	}
+
+	public void Kill()
+	{
+		animator.Play("Death");
+		state = (int) PlayerState.DEAD;
+
+		Time.timeScale = 0.1f;
+		Time.fixedDeltaTime = Time.timeScale * 0.02f;
+		respawnTimeStamp = Time.time + respawnCooldown * Time.timeScale;
+		fadeTimeStamp = respawnTimeStamp + fadeTimeStamp * Time.timeScale;
+		
+		fadeAnimator.speed = 1.0f / respawnFadeLength / Time.timeScale;
+		fadeAnimator.Play("FadeOut");
+	}
+
+	private void Start()
+	{
+		fadeAnimator = fadeImage.GetComponent<Animator>();
+	}
+
 	private void Update()
 	{
+		if ((state & (int) PlayerState.DEAD) != 0)
+		{
+			if (!fadeAnimator.GetCurrentAnimatorStateInfo(0).IsName("FadeIn")) return;
+			Respawn();
+			
+			if (fadeAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.75f)
+				state = (int) PlayerState.CAN_MOVE;
+			return;
+		}
+		
 		if ((state & (int) PlayerState.CAN_MOVE) != 0)
 		{
 			CheckMove();
@@ -195,8 +243,6 @@ public class PlayerController : MonoBehaviour
 		{
 			if (Input.GetButtonDown("Interact"))
 			{
-				Debug.Log("Grab");
-
 				heldBlock = new PushableBlock(hit.collider.gameObject);
 
 				var blockSize  = heldBlock.Collider.size;
@@ -221,8 +267,6 @@ public class PlayerController : MonoBehaviour
 
 			if (hit && Input.GetButton("Interact"))
 			{
-				Debug.Log("Grabbing");
-
 				heldBlock.Rigidbody.mass      = 1.0f;
 				heldBlock.Joint.enabled       = true;
 				heldBlock.Joint.connectedBody = rigidbody;
@@ -234,8 +278,6 @@ public class PlayerController : MonoBehaviour
 
 		if (heldBlock != null)
 		{
-			Debug.Log("Ungrab");
-
 			rigidbody.velocity = Vec2f.zero;
 
 			heldBlock.Rigidbody.mass     = 1000.0f;
