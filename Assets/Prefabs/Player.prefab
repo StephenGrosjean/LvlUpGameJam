@@ -213,16 +213,18 @@ MonoBehaviour:
   jumpStrength: 7.5
   fallMultiplier: 2.5
   lowJumpMultiplier: 2
-  jumpGroundDist: 0.2
-  jumpRaycastOrigin: {fileID: 6138500205689919644}
+  jumpGroundDist: 0.1
+  jumpCastWidth: 0.3
+  jumpRayOrigin: {fileID: 6138500205689919644}
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   grabMaxRange: 0.6
   blockMoveSpeed: 2
   animator: {fileID: 6138500204360935381}
-  aTransform: {fileID: 6138500204560815470}
-  aRigidbody: {fileID: 6138500204560815469}
+  transform: {fileID: 6138500204560815470}
+  rigidbody: {fileID: 6138500204560815469}
+  collider: {fileID: 6138500204560815468}
 --- !u!1 &6138500205689919643
 GameObject:
   m_ObjectHideFlags: 0
