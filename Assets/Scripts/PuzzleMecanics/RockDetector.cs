@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class RockDetector : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D rock;
+    [SerializeField] private GameObject rock;
 
     void OnTriggerEnter2D(Collider2D other) {
-        rock.gravityScale = 1;
+        rock.SetActive(true);
     }
 }
