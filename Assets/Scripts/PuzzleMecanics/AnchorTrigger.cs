@@ -10,7 +10,7 @@ public class AnchorTrigger : MonoBehaviour
 	private CameraRelay relay;
 	private Transform playerPos;
 
-	private void Start()
+	protected virtual void Start()
 	{
 		relay = FindObjectOfType<CameraRelay>();
 		playerPos = FindObjectOfType<PlayerController>().transform;
@@ -19,8 +19,12 @@ public class AnchorTrigger : MonoBehaviour
 	private void OnTriggerEnter2D(Collider2D other)
 	{
 		if (!other.CompareTag("Player")) return;
+		StartEffect();
+	}
 
-		relay.SetLensSize(lensSize);
-		relay.SetFollow(anchor ? anchor : playerPos);
+	protected virtual void StartEffect()
+	{
+        relay.SetLensSize(lensSize);
+        relay.SetFollow(anchor ? anchor : playerPos);
 	}
 }
